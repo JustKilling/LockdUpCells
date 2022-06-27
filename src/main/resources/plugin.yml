@@ -1,0 +1,49 @@
+name: EscLockupCells
+version: ${project.version}
+main: me.emiel.esclockupcells.EscLockupCells
+api-version: 1.19
+depend: [WorldGuard, EscLockupEconomy]
+authors: [_9t]
+description: Plugin for EscLockup to manage the cells.
+commands:
+  createcell:
+    description: Create a cell
+    usage: "/<command> <cell name> <small/medium/large>"
+    permission: esclockupcells.createcell
+    aliases: [addcell]
+  listcells:
+    description: List all cells
+    usage: "/<command>"
+    permission: esclockupcells.listcells
+  deletecell:
+    description: Delete a cell
+    usage: "/<command> <cell name>"
+    permission: esclockupcells.deletecell
+    aliases: [remcell, delcell, removecell, rmcell]
+  initializecells:
+    description: Initialize the cells in the current world.
+    usage: "/<command>"
+    permission: esclockupcells.initialize
+  getcelldoor:
+    description: Gets a door for a specific cell.
+    usage: "/<command> <cell name>"
+    permission: esclockupcells.getcelldoor
+    aliases: [ getdoor ]
+  getcellvoucher:
+    description: Gets a voucher for a specific cell type.
+    usage: "/<command> <small, medium, large>"
+    permission: esclockupcells.getcellvoucher
+  deleteallcells:
+    description: Deletes all the cells.
+    usage: "/<command>"
+    aliases: [ removeallcells ]
+  trust:
+    description: Adds someone to a cell.
+    usage: "/<command> <name>"
+    permission: esclockupcells.trust
+    aliases: [ addtrusted, addtrust ]
+  untrust:
+    description: Removes someone from a cell.
+    usage: "/<command> <name>"
+    permission: esclockupcells.untrust
+    aliases: [ removetrusted, removetrust ]
