@@ -24,7 +24,7 @@ public class AddTrust implements CommandExecutor {
         }
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-        if(!target.hasPlayedBefore()){
+        if(!target.isOnline() || !target.hasPlayedBefore()){
             MessageSender.SendErrorWithPrefix(p, "This player was not found!");
             return true;
         }

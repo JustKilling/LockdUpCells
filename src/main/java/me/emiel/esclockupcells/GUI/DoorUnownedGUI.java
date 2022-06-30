@@ -99,8 +99,8 @@ public class DoorUnownedGUI {
             cell.set_timeLeft(EscLockupCells.get_instance().getConfig().getInt("timeleftonbuy"));
             CellManager.updateCell(cell.get_cellid(), cell);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg addmember -w "+ cell.get_world() + " " + cell.get_cellName() + " " + p.getName());
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " chest-access deny");
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " -g member" + " chest-access allow");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " -g " + "nonmembers" + " chest-access deny");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " -g members" + " chest-access allow");
             MessageSender.SendMessageWithPrefix(p, "You successfully bought &b&l" + cell.get_cellName());
             p.closeInventory();
             return true;

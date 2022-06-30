@@ -159,7 +159,9 @@ public class CellManager {
 
     public static boolean isPlayerTrusted(String id, UUID uuid) {
         Cell cell = findCell(id);
-        if(cell.get_owner() == uuid) return true;
+        if(cell.get_owner().toString().equalsIgnoreCase(uuid.toString())) {
+            return true;
+        }
         if(cell.get_trusted().contains(uuid)) return true;
         OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
         if(p.isOp()) return true;
@@ -192,17 +194,21 @@ public class CellManager {
     public static void unOwn(Cell cell) {
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg removemember -w "+ cell.get_world() + " " + cell.get_cellName() + " " + cell.get_owner().toString());
+        for (UUID trusted: cell.get_trusted()
+        ) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg removemember -w "+ cell.get_world() + " " + cell.get_cellName() + " " + trusted.toString());
+        }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " -g nonmembers chest-access allow");
+
+
         cell.set_owner(null);
         cell.set_trusted(new ArrayList<UUID>());
         cell.set_timeLeft(EscLockupCells.get_instance().getConfig().getInt("timeleftonbuy"));
+
         updateCell(cell.get_cellid(), cell);
 
-        for (UUID trusted: cell.get_trusted()
-             ) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg removemember -w "+ cell.get_world() + " " + cell.get_cellName() + " " + trusted.toString());
-           // Bukkit.broadcastMessage("rg removemember -w "+ cell.get_world() + " " + cell.get_cellName() + " " + trusted.toString());
-        }
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rg flag " + cell.get_cellName() + " -w " +  cell.get_world() + " chest-access allow");
+
+
     }
 
     public static boolean addTrusted(Cell cell, UUID uuid){

@@ -37,6 +37,10 @@ public class DoorTrustedGUI {
     public static void clicked(Cell cell, Player p, int rawSlot) {
         switch(rawSlot){
             case 3:
+                if(!CellManager.isPlayerTrusted(cell.get_cellid(),p.getUniqueId())){
+                    MessageSender.SendErrorWithPrefix(p, "You are not part of this cell!");
+                    break;
+                }
                 int cost = RentCalculator.GetRent(cell);
                 if(CoinManager.HasEnoughCoins(p, cost)){
                     cell.set_timeLeft(cell.get_timeLeft() + 86400);
@@ -84,7 +88,7 @@ public class DoorTrustedGUI {
     public void initializeItems(Cell cell) {
 
         inv.addItem(createGuiItem(Material.WHITE_STAINED_GLASS_PANE, " ", cell,true,""));
-        Player owner = Bukkit.getPlayer(cell.get_owner());
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(cell.get_owner());
         inv.addItem(createGuiSkull(owner, "&b&lOwner", cell,"§a" + owner.getName()));
         inv.addItem(createRandomGuiItem(Material.WHITE_STAINED_GLASS_PANE, " ",""));
         inv.addItem(createGuiItem(Material.GREEN_STAINED_GLASS_PANE, "&2&lAdd rent!", cell,false,"&fThis costs: &6&l+" + RentCalculator.GetRent(cell)));
@@ -126,7 +130,7 @@ public class DoorTrustedGUI {
                 absSeconds % 60);
         return seconds < 0 ? "-" + positive : positive;
     }
-    private ItemStack createGuiSkull(Player owner, String name, Cell cell, final String... lore) {
+    private ItemStack createGuiSkull(OfflinePlayer owner, String name, Cell cell, final String... lore) {
         final ItemStack item = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short)SkullType.PLAYER.ordinal());
 
 
@@ -136,7 +140,7 @@ public class DoorTrustedGUI {
             lore[i] = str;
         }
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(owner.getPlayer().getName());
+        meta.setOwner(owner.getName());
         // Set the name of the item
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
 
